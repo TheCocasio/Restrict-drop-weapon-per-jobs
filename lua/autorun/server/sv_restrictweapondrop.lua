@@ -14,10 +14,12 @@ if sv_restrictdropweaponauto:GetInt() == 0 then
 	hook.Add( "PlayerSay", "RestrictDROPWEAPONCHAT", function( ply, text, public )
 		text = string.lower( text ) -- Make the chat message entirely lowercase
 		if ( text == "!restrictdropweapon" ) then
-			net.Start("restrictdropweaponclient")
-			net.WriteEntity(ply)
-			net.Send(ply)
-			return ""
+			if ply:IsSuperAdmin() then
+				net.Start("restrictdropweaponclient")
+				net.WriteEntity(ply)
+				net.Send(ply)
+				return ""
+			end
 		end
 	end )
 
