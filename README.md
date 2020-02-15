@@ -3,7 +3,7 @@
 This addon allows to restrict a job to drop a weapon
 
 Instructions
-Type !restrictdropweapon to open the menu !
+Type !restrictdropweapon to open the menu ! ( You need have Superadmin )
 
 
 Features
