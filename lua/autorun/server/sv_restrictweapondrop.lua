@@ -16,7 +16,7 @@ if sv_restrictdropweaponauto:GetInt() == 0 then
 		text = string.lower( text ) -- Make the chat message entirely lowercase
 		if ( text == "!restrictdropweapon" ) then
 			if ply:IsSuperAdmin() then
-				net.Start("restrictdropweaponclient")
+				net.Start("RestrictDropWeapons::restrictdropweaponclient")
 				net.Send(ply)
 				return ""
 			end
