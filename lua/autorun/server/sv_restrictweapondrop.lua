@@ -17,7 +17,6 @@ if sv_restrictdropweaponauto:GetInt() == 0 then
 		if ( text == "!restrictdropweapon" ) then
 			if ply:IsSuperAdmin() then
 				net.Start("restrictdropweaponclient")
-				net.WriteEntity(ply)
 				net.Send(ply)
 				return ""
 			end
