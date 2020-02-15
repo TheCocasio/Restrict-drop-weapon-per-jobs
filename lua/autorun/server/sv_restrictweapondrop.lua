@@ -110,7 +110,8 @@ end
 
 net.Receive("RestrictDropWeapons::StockRESTRICT", function(len,ply)
 
-	local ply = net.ReadEntity()
+	if not ply:IsSuperAdmin() then return end
+	
 	local jobname = net.ReadString()
 	local command = net.ReadString()
 	local weapons = net.ReadTable()
@@ -141,7 +142,8 @@ end
 
 net.Receive("RestrictDropWeapons::StockAUTORIZE", function(len,ply)
 
-	local ply = net.ReadEntity()
+	if not ply:IsSuperAdmin() then return end
+
 	local jobname = net.ReadString()
 	local command = net.ReadString()
 	local weapons = net.ReadTable()
