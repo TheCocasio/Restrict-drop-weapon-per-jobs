@@ -16,11 +16,9 @@ surface.CreateFont( "restrictweapondropbebas3", {
 	weight = 500,
 } )
 
-local function RestrictDropWeaponClient(ply)
+local function RestrictDropWeaponClient()
 
 	local stockrestrictclient = {}
-
-	--PrintTable(RPExtraTeams)
 
 	local background = vgui.Create("DFrame")
 	background:SetSize(1155,611)
@@ -47,8 +45,6 @@ local function RestrictDropWeaponClient(ply)
 		background:Close()
 	end
 
-
-
 	local listjobsBACKGROUND = vgui.Create("DFrame", background)
 	listjobsBACKGROUND:SetDraggable(false)
 	listjobsBACKGROUND:SetPos(10,133)
@@ -67,7 +63,6 @@ local function RestrictDropWeaponClient(ply)
 	DScrollPanel:SetPos(0,-40)
 
 	local listjobs = {}
-
 
 	for k,v in pairs(RPExtraTeams) do
     	
@@ -109,13 +104,7 @@ local function RestrictDropWeaponClient(ply)
 			end
 
 		end
-
-    	
-
 	end
-
-
-		
 
 	local listweaponsBACKGROUND = vgui.Create("DFrame", background)
 	listweaponsBACKGROUND:SetDraggable(false)
@@ -146,7 +135,6 @@ local function RestrictDropWeaponClient(ply)
 		listweapons[k]:SetColor(Color(255,255,255,255))
 		listweapons[k]:SetText(v.ClassName)
 		listweapons[k].Paint = function(self,w,h)
-
 			if k % 2 == 0 then
 			draw.RoundedBox(0,	0,	0,	w,	h,	Color(49,49,49,255))
 			else
@@ -158,21 +146,15 @@ local function RestrictDropWeaponClient(ply)
 			if listweapons[k].toggleofbutton then
 				draw.RoundedBox(0,	0,	0,	w,	h,	Color(62,255,62,255))
 			end
-
 		end
 
 		listweapons[k].DoClick = function(self)
-
 			if listweapons[k].toggleofbutton then
 				listweapons[k].toggleofbutton = false
 			else
 				listweapons[k].toggleofbutton = true
 			end
-
 		end
-
-    	
-
 	end
 
 	local buttonautorize = vgui.Create("DButton",background)
@@ -188,37 +170,26 @@ local function RestrictDropWeaponClient(ply)
 	end
 	buttonautorize.DoClick = function()
 
-		net.Start("StockAUTORIZE")
-		net.WriteEntity(LocalPlayer())
+		net.Start("RestrictDropWeapons::StockAUTORIZE")
 
-			for k,v in pairs(RPExtraTeams) do
-
-				if listjobs[k].toggleofbutton then
-					net.WriteString(v.name)
-					net.WriteString(v.command)
-				end
-
+		for k,v in pairs(RPExtraTeams) do
+			if listjobs[k].toggleofbutton then
+				net.WriteString(v.name)
+				net.WriteString(v.command)
 			end
-			
+		end
 
-			for k,v in pairs(weapons.GetList()) do
-
-				if listweapons[k].toggleofbutton then
-					
-					table.insert(stockrestrictclient, v.ClassName)
-					timer.Create("stockautorizeweapontimer",	0,	1,	function()
-
-						PrintTable(stockrestrictclient)
-						net.WriteTable(stockrestrictclient)
-						net.SendToServer()
-						background:Close()
-
-					end)
-					
-				end
-
+		for k,v in pairs(weapons.GetList()) do
+			if listweapons[k].toggleofbutton then
+				table.insert(stockrestrictclient, v.ClassName)
+				timer.Simple(0,function()
+					PrintTable(stockrestrictclient)
+					net.WriteTable(stockrestrictclient)
+					net.SendToServer()
+					background:Close()
+				end)	
 			end
-
+		end
 	end
 
 	local buttonrestrict = vgui.Create("DButton",background)
@@ -234,51 +205,29 @@ local function RestrictDropWeaponClient(ply)
 	end
 	buttonrestrict.DoClick = function()
 
-		net.Start("StockRESTRICT")
-		net.WriteEntity(LocalPlayer())
-
-			for k,v in pairs(RPExtraTeams) do
-
-				if listjobs[k].toggleofbutton then
-					net.WriteString(v.name)
-					net.WriteString(v.command)
-				end
-
+		net.Start("RestrictDropWeapons::StockRESTRICT")
+		for k,v in pairs(RPExtraTeams) do
+			if listjobs[k].toggleofbutton then
+				net.WriteString(v.name)
+				net.WriteString(v.command)
 			end
-			
-
-			for k,v in pairs(weapons.GetList()) do
-
-				if listweapons[k].toggleofbutton then
-					
-					table.insert(stockrestrictclient, v.ClassName)
-					timer.Create("stockrestrictweapontimer",	0,	1,	function()
-
-						PrintTable(stockrestrictclient)
-						net.WriteTable(stockrestrictclient)
-						net.SendToServer()
-						background:Close()
-
-					end)
-					
-				end
-
+		end
+		for k,v in pairs(weapons.GetList()) do
+			if listweapons[k].toggleofbutton then
+				table.insert(stockrestrictclient, v.ClassName)
+				timer.Simple(0,function()
+					PrintTable(stockrestrictclient)
+					net.WriteTable(stockrestrictclient)
+					net.SendToServer()
+					background:Close()
+				end)
 			end
-
-
+		end
 	end
-
-
-
-
-
-
 end
 
-net.Receive("restrictdropweaponclient",function(len,ply)
+net.Receive("RestrictDropWeapons::restrictdropweaponclient",function(len,ply)
 
-	local ply = net.ReadEntity()
-
-	RestrictDropWeaponClient(ply)
+	RestrictDropWeaponClient()
 
 end)
