@@ -1,4 +1,4 @@
-RestrictedDroppingWeapon2 = {}
+local RestrictedDroppingWeapon2 = {}
 
 resource.AddFile("resource/fonts/BEBAS.TTF")
 
