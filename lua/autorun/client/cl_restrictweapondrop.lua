@@ -226,7 +226,7 @@ local function RestrictDropWeaponClient()
 	end
 end
 
-net.Receive("RestrictDropWeapons::restrictdropweaponclient",function(len,ply)
+net.Receive("RestrictDropWeapons::Open",function(len,ply)
 
 	RestrictDropWeaponClient()
 
