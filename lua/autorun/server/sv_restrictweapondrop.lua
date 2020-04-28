@@ -2,7 +2,7 @@ local RestrictedDroppingWeapon2 = {}
 
 resource.AddFile("resource/fonts/BEBAS.TTF")
 
-util.AddNetworkString("RestrictDropWeapons::restrictdropweaponclient")
+util.AddNetworkString("RestrictDropWeapons::Open")
 util.AddNetworkString("RestrictDropWeapons::StockRESTRICT")
 util.AddNetworkString("RestrictDropWeapons::StockAUTORIZE")
 CreateConVar( "sv_restrictdropweaponauto", "0", 8192, "Restrict weapons of jobs !" )  
@@ -16,7 +16,7 @@ if sv_restrictdropweaponauto:GetInt() == 0 then
 		text = string.lower( text ) -- Make the chat message entirely lowercase
 		if ( text == "!restrictdropweapon" ) then
 			if ply:IsSuperAdmin() then
-				net.Start("RestrictDropWeapons::restrictdropweaponclient")
+				net.Start("RestrictDropWeapons::Open")
 				net.Send(ply)
 				return ""
 			end
